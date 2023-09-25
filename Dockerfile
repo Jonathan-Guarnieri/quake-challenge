@@ -12,4 +12,7 @@ RUN bundle install
 
 COPY . /app
 
+RUN chmod +x /app/bin/init-db.sh
+COPY bin/init-db.sh /docker-entrypoint-initdb.d/
+
 CMD ["ruby", "app.rb"]

@@ -7,23 +7,28 @@ services:
       - .:/app
     depends_on:
       - db
+    environment:
+      APP_ENV: production
 
   db:
     image: postgres:13
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./bin/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     environment:
       POSTGRES_PASSWORD: my_secret_password
       POSTGRES_USER: my_user
-      POSTGRES_DB: quake_logs
+      POSTGRES_MULTIPLE_DATABASES: "quake_logs,quake_logs_test"
 
   rspec:
     build: .
-    command: bundle exec rspec --format documentation
+    command: bash -c "ruby scripts/prepare_test_environment.rb && bundle exec rspec --format documentation"
     volumes:
       - .:/app
     depends_on:
       - db
+    environment:
+      APP_ENV: test
 
 volumes:
   postgres-data:
