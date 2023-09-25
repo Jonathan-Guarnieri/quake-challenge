@@ -1,5 +1,14 @@
-puts "Let's go boys..."
+require_relative 'app/concerns/database_error_handling.rb'
+require_relative 'app/cli'
 
-# Code here
+class App
+  include DatabaseErrorHandling
 
-puts "Done!"
+  def self.start
+    handle_errors do
+      CLI.start()
+    end
+  end
+end
+
+App.start()
