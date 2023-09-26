@@ -18,13 +18,8 @@ require_relative '../../app/managers/migration_manager'
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   config.before(:suite) do
-    puts "Resetting the test database..."
     Managers::DataManager.delete_all_data
-
-    puts "Applying missing migrations before running tests..."
     Managers::MigrationManager.apply_migrations
-
-    puts "Startint tests..."
   end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
