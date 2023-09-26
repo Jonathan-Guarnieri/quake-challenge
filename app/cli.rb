@@ -18,7 +18,7 @@ module CLI
         Managers::MigrationManager.apply_migrations
       when 2
         Managers::DataManager.import_data
-        puts "Data has been imported."
+        puts "Data has been updated."
       when 3
         Displayers::ReportDisplayer.display_report
       when 4
