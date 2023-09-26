@@ -36,3 +36,4 @@ docker-compose run rspec
 ## Important considerations
 - Games without deaths are not considered
 - Players who did not kill or die are not considered
+- On line 97 of the `file-qgames-log` file, we have an abrupt break in the log without the game ending record ("ShutdownGame" message). Because of this, this game is disregarded in this application.
