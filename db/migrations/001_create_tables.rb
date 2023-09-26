@@ -21,7 +21,7 @@ def up
     CREATE TABLE kills (
       id SERIAL PRIMARY KEY,
       game_id INT NOT NULL REFERENCES games(id),
-      killer_id INT REFERENCES players(id),
+      killer_id INT REFERENCES players(id) NULL,
       victim_id INT REFERENCES players(id),
       method TEXT NOT NULL
     );
