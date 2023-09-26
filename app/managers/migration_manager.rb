@@ -1,6 +1,6 @@
 require_relative '../../db/connect'
 
-module Actions
+module Managers
   class MigrationManager
     TABLES = ['games', 'players', 'kills'].freeze
 

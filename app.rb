@@ -1,4 +1,4 @@
-require_relative 'app/concerns/database_error_handling.rb'
+require_relative 'app/helpers/database_error_handling.rb'
 require_relative 'app/cli'
 
 class App

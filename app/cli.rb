@@ -1,8 +1,8 @@
 require_relative 'menu'
-require_relative 'actions/migration_manager'
-require_relative 'actions/data_manager'
-require_relative 'actions/report_displayer'
-require_relative 'actions/ranking_displayer'
+require_relative 'managers/migration_manager'
+require_relative 'managers/data_manager'
+require_relative 'displayers/report_displayer'
+require_relative 'displayers/ranking_displayer'
 
 module CLI
   def self.start
@@ -13,16 +13,16 @@ module CLI
 
       case choice
       when 0
-        Actions::DataManager.delete_all_data
+        Managers::DataManager.delete_all_data
       when 1
-        Actions::MigrationManager.apply_migrations
+        Managers::MigrationManager.apply_migrations
       when 2
-        Actions::DataManager.import_data
+        Managers::DataManager.import_data
         puts "Data has been imported."
       when 3
-        Actions::ReportDisplayer.display_report
+        Displayers::ReportDisplayer.display_report
       when 4
-        Actions::RankingDisplayer.player_ranking
+        Displayers::RankingDisplayer.player_ranking
       when 5
         puts "Exiting..."
         break

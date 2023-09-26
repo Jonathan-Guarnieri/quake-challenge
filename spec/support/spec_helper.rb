@@ -19,10 +19,10 @@ require_relative '../../app/managers/migration_manager'
 RSpec.configure do |config|
   config.before(:suite) do
     puts "Resetting the test database..."
-    Actions::DataManager.delete_all_data
+    Managers::DataManager.delete_all_data
 
     puts "Applying missing migrations before running tests..."
-    Actions::MigrationManager.apply_migrations
+    Managers::MigrationManager.apply_migrations
 
     puts "Startint tests..."
   end

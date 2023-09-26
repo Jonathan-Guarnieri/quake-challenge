@@ -1,6 +1,6 @@
 require_relative '../../db/connect'
 
-module Actions
+module Displayers
   class ReportDisplayer
     def self.display_report
       conn = connect_to_db
