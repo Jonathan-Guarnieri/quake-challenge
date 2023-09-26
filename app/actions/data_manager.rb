@@ -10,20 +10,11 @@ module Actions
     end
 
     def self.delete_all_data
-      # sleep(1)
-      print "Dropping all tables from the database"
-      # sleep(1)
-      print '.'
-      # sleep(1)
-      print '.'
-      # sleep(1)
-      puts '.'
-      # sleep(1)
+      puts "Dropping all tables from the database..."
 
       begin
         down()
         puts "All data has been deleted."
-        # sleep(2)
       rescue PG::Error => e
         puts "Error while deleting data: #{e.message}"
       end
