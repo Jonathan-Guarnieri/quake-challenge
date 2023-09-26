@@ -32,3 +32,7 @@ docker-compose run rspec
 - **Dockerfile**: Docker configuration for the application.
 - **Gemfile**: Application dependencies.
 - **Gemfile.lock**: Application dependencies versions.
+
+## Important considerations
+- Games without deaths are not considered
+- Players who did not kill or die are not considered
