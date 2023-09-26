@@ -1,5 +1,5 @@
 require_relative '../../db/migrations/001_create_tables.rb'
-require_relative '../../scripts/import_quake_data'
+require_relative '../importers/quake_data_importer.rb'
 require 'pg'
 
 module Actions

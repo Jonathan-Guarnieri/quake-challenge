@@ -22,7 +22,7 @@ services:
 
   rspec:
     build: .
-    command: bash -c "ruby scripts/prepare_test_environment.rb && bundle exec rspec --format documentation"
+    command: bash -c "ruby spec/support/prepare_test_environment.rb && bundle exec rspec --format documentation"
     volumes:
       - .:/app
     depends_on:

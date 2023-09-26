@@ -1,4 +1,4 @@
-require_relative '../db/connect'
+require_relative '../../db/connect'
 
 def create_test_database
   conn = PG.connect(

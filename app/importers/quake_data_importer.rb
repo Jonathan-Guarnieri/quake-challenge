@@ -1,6 +1,6 @@
 require 'net/http'
 require 'pg'
-require_relative '../db/connect'
+require_relative '../../db/connect'
 
 class QuakeDataImporter
   KILL_LOG_REGEX = /(\d+:\d+) Kill: \d+ \d+ \d+: (.+?) killed (.+?) by (MOD_\w+)/

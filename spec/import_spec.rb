@@ -1,5 +1,5 @@
 require_relative '../db/connect'
-require_relative '../scripts/import_quake_data'
+require_relative '../app/importers/quake_data_importer.rb'
 
 RSpec.describe QuakeDataImporter do
   let(:conn) { connect_to_db }
