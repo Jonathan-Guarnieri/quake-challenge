@@ -1,7 +1,7 @@
 require_relative '../../db/connect'
 
-module Displayers
-  class RankingDisplayer
+module Reports
+  class RankingReport
     def self.player_ranking
       conn = connect_to_db
 

@@ -1,7 +1,7 @@
 require_relative '../../db/connect'
 
-module Displayers
-  class ReportDisplayer
+module Reports
+  class GameReport
     def self.display_report
       conn = connect_to_db
       print "Enter the game ID for the report: "

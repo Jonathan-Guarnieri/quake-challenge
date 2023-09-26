@@ -1,8 +1,8 @@
 require_relative 'menu'
 require_relative 'managers/migration_manager'
 require_relative 'managers/data_manager'
-require_relative 'displayers/report_displayer'
-require_relative 'displayers/ranking_displayer'
+require_relative 'reports/game_report'
+require_relative 'reports/ranking_report'
 
 module CLI
   def self.start
@@ -20,9 +20,9 @@ module CLI
         Managers::DataManager.import_data
         puts "Data has been updated."
       when 3
-        Displayers::ReportDisplayer.display_report
+        Reports::GameReport.display_report
       when 4
-        Displayers::RankingDisplayer.player_ranking
+        Reports::RankingReport.player_ranking
       when 5
         puts "Exiting..."
         break
