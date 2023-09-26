@@ -18,14 +18,14 @@ require_relative '../app/actions/migration_manager'
 RSpec.configure do |config|
   config.before(:suite) do
     unless Actions::MigrationManager.migrations_up_to_date?
-      sleep 3
+      # sleep 3
       puts "Applying missing migrations before running tests..."
-      sleep 3
+      # sleep 3
       Actions::MigrationManager.apply_migrations
     end
 
     puts "Startint tests..."
-    sleep 3
+    # sleep 3
   end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
