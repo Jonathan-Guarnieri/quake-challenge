@@ -20,7 +20,7 @@ module CLI
         Managers::DataManager.import_data
         puts "Data has been updated."
       when 3
-        Reports::GameReport.display_report
+        Reports::GameReport.display
       when 4
         Reports::RankingReport.player_ranking
       when 5

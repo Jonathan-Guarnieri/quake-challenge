@@ -1,73 +1,74 @@
-require_relative '../../db/connect'
-
 module Reports
   class GameReport
-    def self.display_report
+    require_relative '../../db/connect'
+
+    def self.display
       conn = connect_to_db
-      print "Enter the game ID for the report: "
-      game_id = gets.chomp.to_i
 
-      game_result = conn.exec("SELECT total_kills FROM games WHERE id = $1", [game_id])
-      total_kills = game_result.first["total_kills"]
+      # Retrieve list of games
+      games = conn.exec("SELECT id, total_kills FROM games")
 
-      player_result = conn.exec("SELECT players.name FROM kills JOIN players ON kills.player_id = players.id WHERE game_id = $1", [game_id])
-      players = player_result.map { |row| row["name"] }
+      # Loop through each game and display its report
+      games.each do |game|
+        game_id = game['id'].to_i
+        total_kills = game['total_kills'].to_i
 
-      kills_result = conn.exec("SELECT players.name, COUNT(kills.id) AS kill_count FROM kills JOIN players ON kills.player_id = players.id WHERE game_id = $1 GROUP BY players.name", [game_id])
-      kills = {}
-      kills_result.each do |row|
-        kills[row["name"]] = row["kill_count"].to_i
-      end
+        # Retrieve players involved in the game (both killers and victims)
+        player_result = conn.exec("SELECT DISTINCT players.name FROM kills JOIN players ON (kills.victim_id = players.id OR kills.killer_id = players.id) WHERE game_id = $1 AND players.name <> '<world>'", [game_id])
+        players = player_result.map { |row| row["name"] }
 
-      puts "Game #{game_id} Report:"
-      puts "Total Kills: #{total_kills}"
-      puts "Players: #{players.join(", ")}"
-      puts "Kills:"
-      kills.each do |player, kill_count|
-        puts "#{player}: #{kill_count}"
+        # Initialize kills hash with 0 kills for each player
+        kills = Hash[players.collect { |player| [player, 0] }]
+
+        # Populate kills from database
+        kills_result = conn.exec("SELECT players.name, COUNT(kills.id) AS kill_count FROM kills JOIN players ON kills.killer_id = players.id WHERE game_id = $1 AND players.name <> '<world>' GROUP BY players.name", [game_id])
+        kills_result.each do |row|
+          kills[row["name"]] = row["kill_count"].to_i
+        end
+
+        # Adjust for deaths caused by <world>
+        world_kills_result = conn.exec("SELECT players.name, COUNT(kills.id) AS kill_count FROM kills JOIN players ON kills.victim_id = players.id WHERE game_id = $1 AND kills.killer_id IS NULL GROUP BY players.name", [game_id])
+        world_kills_result.each do |row|
+          player_name = row["name"]
+          kill_count = row["kill_count"].to_i
+          kills[player_name] -= kill_count
+        end
+
+        # PRINTING:
+
+        # Start of the game box
+        puts "\n\n" "╔" + "═" * 48 + "╗"
+        puts "║" + "⚔️⚔️⚔️ Game #{game_id} Report ⚔️⚔️⚔️".center(54) + "║"
+        puts "╠" + "═" * 48 + "╣"
+
+        # Total Kills
+        puts "║ 🔥 Total Kills: #{total_kills}".ljust(48) + "║"
+
+        # Players Involved
+        puts "║ 🎮 Players Involved:".ljust(48) + "║"
+        if players.any?
+          players.each { |player| puts "║    - #{player}".ljust(49) + "║" }
+        else
+          puts "║    None".ljust(49) + "║"
+        end
+
+        # Player Kills
+        puts "╟" + "─" * 48 + "╢"
+        puts "║ 📊 Player Kills:".ljust(48) + "║"
+        if kills.any?
+          sorted_kills = kills.sort_by { |_k, v| -v }
+          sorted_kills.each_with_index do |(player, kill_count), index|
+            puts "║    #{(index+1).to_s.rjust(2)}. #{player.ljust(20)} : #{kill_count}".ljust(49) + "║"
+          end
+        else
+          puts "║    No kills recorded".ljust(49) + "║"
+        end
+
+        # End of the game box
+        puts "╚" + "═" * 48 + "╝"
       end
 
       conn.close
     end
   end
 end
-
-# METHOD_MAP = { # isso aqui precisa ser com numero? byebug
-#     '0' => 'MOD_UNKNOWN',
-#     '1' => 'MOD_SHOTGUN',
-#     '2' => 'MOD_GAUNTLET',
-#     '3' => 'MOD_MACHINEGUN',
-#     '4' => 'MOD_GRENADE',
-#     '5' => 'MOD_GRENADE_SPLASH',
-#     '6' => 'MOD_ROCKET',
-#     '7' => 'MOD_ROCKET_SPLASH',
-#     '8' => 'MOD_PLASMA',
-#     '9' => 'MOD_PLASMA_SPLASH',
-#     '10' => 'MOD_RAILGUN',
-#     '11' => 'MOD_LIGHTNING',
-#     '12' => 'MOD_BFG',
-#     '13' => 'MOD_BFG_SPLASH',
-#     '14' => 'MOD_WATER',
-#     '15' => 'MOD_SLIME',
-#     '16' => 'MOD_LAVA',
-#     '17' => 'MOD_CRUSH',
-#     '18' => 'MOD_TELEFRAG',
-#     '19' => 'MOD_FALLING',
-#     '20' => 'MOD_SUICIDE',
-#     '21' => 'MOD_TARGET_LASER',
-#     '22' => 'MOD_TRIGGER_HURT',
-#     '23' => 'MOD_NAIL',
-#     '24' => 'MOD_CHAINGUN',
-#     '25' => 'MOD_PROXIMITY_MINE',
-#     '26' => 'MOD_KAMIKAZE',
-#     '27' => 'MOD_JUICED',
-#     '28' => 'MOD_GRAPPLE'
-#   }
-
-# if kill[:killer] == "<world>"
-  # current_game[:kills][victim] ||= 0
-  # current_game[:kills][victim] -= 1
-# else
-  # current_game[:kills][killer] ||= 0
-  # current_game[:kills][killer] += 1
-# end
