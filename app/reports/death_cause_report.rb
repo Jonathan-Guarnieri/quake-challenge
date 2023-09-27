@@ -35,6 +35,7 @@ module Reports
         end
         
         puts "╚═════════════════════════════╩══════════════════╝"
+        puts ""
       end
 
       puts "\nEnd of report. Stay sharp on the battlefield! 🔫"
