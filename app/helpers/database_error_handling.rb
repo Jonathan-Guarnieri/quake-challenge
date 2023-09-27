@@ -11,8 +11,6 @@ module Helpers
         yield
       rescue PG::UndefinedTable
         Helpers::RespawnMessage.show(:run_migrations_first)
-      rescue PG::ConnectionBad
-        conn.exec("CREATE DATABASE quake_logs;")
       end
     end
   end
