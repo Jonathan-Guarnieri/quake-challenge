@@ -1,6 +1,7 @@
 module Reports
   class Report
     require_relative '../../db/connect'
+    require_relative '../helpers/respawn_message'
 
     def self.has_data?(table_name)
       conn = connect_to_db
@@ -9,7 +10,7 @@ module Reports
     end
 
     def self.prompt_user_for_data
-      puts "No data available. Consider importing data for a detailed report."
+      Helpers::RespawnMessage.show(:import_data_first)
     end
 
     def self.ensure_data(table_name)
@@ -18,6 +19,10 @@ module Reports
         return false
       end
       true
+    end
+
+    def self.display
+      raise 'not implemented'
     end
   end
 end

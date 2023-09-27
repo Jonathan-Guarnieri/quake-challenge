@@ -7,6 +7,7 @@ module Managers
     def self.import_data
       puts "Downloading and importing Quake data..."
       QuakeDataImporter.import
+      puts "Data has been updated."
     end
 
     def self.delete_all_data
