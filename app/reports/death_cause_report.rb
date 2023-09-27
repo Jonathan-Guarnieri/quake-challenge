@@ -9,6 +9,8 @@ module Reports
 
       games = conn.exec("SELECT id FROM games")
 
+      system "clear"
+
       games.each do |game|
         game_id = game['id'].to_i
         
@@ -22,13 +24,20 @@ module Reports
 
         results = conn.exec(query, [game_id])
 
-        puts "\n🎮🎮 Game #{game_id} Death Causes 🎮🎮"
-        puts "================================"
+        puts "╔════════════════════════════════════════════════╗"
+        puts "║ Bloodshed Summary for Game #{game_id.to_s.ljust(20)}║"
+        puts "╠═════════════════════════════╦══════════════════╣"
+
         results.each do |row|
-          puts "#{row['method'].ljust(20)} Deaths: #{row['death_count']}"
+          cause = row['method'][0..20].ljust(27)
+          count = row['death_count'].to_s.rjust(16)
+          puts "║ #{cause} ║ #{count} ║"
         end
-        puts "================================"
+        
+        puts "╚═════════════════════════════╩══════════════════╝"
       end
+
+      puts "\nEnd of report. Stay sharp on the battlefield! 🔫"
 
       conn.close
     end

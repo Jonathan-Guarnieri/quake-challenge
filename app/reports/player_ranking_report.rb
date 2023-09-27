@@ -19,12 +19,20 @@ module Reports
 
       results = conn.exec(query)
 
-      puts "🔥🔥 Players Ranking 🔥🔥"
-      puts "================================"
+      system "clear"
+
+      puts "\n══════════════════════════════════════════════"
+      puts "🔥 PLAYERS RANKING 🔥"
+      puts "══════════════════════════════════════════════"
       results.each_with_index do |row, index|
-        puts "#{index + 1}. #{row['name'].ljust(20)} Score: #{row['score']}"
+        rank = "#{index + 1}.".ljust(4)
+        name = row['name'].ljust(20)
+        score = "Score: #{row['score'].rjust(3)}".rjust(10)
+        puts "#{rank} #{name} #{score}"
       end
-      puts "================================"
+      puts "══════════════════════════════════════════════"
+      puts "Legends never die, they respawn! 🚀"
+      puts "══════════════════════════════════════════════"
 
       conn.close
     end
