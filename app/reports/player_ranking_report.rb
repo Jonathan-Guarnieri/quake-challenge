@@ -19,7 +19,7 @@ module Reports
 
       results = conn.exec(query)
 
-      puts "🔥🔥 Player Rankings 🔥🔥"
+      puts "🔥🔥 Players Ranking 🔥🔥"
       puts "================================"
       results.each_with_index do |row, index|
         puts "#{index + 1}. #{row['name'].ljust(20)} Score: #{row['score']}"
