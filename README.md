@@ -27,7 +27,7 @@ The project was birthed from a technical challenge designed to parse the Quake 3
 ### Instructions:
 Forge the Containers:
 ```
-docker-compose build
+docker-compose up --build -d
 ```
 Dive into the Arena:
 ```
